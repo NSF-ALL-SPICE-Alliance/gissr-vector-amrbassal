@@ -193,6 +193,15 @@ We are also using the `%>%` symbol for the first time, which is called a "pipe".
 The code chunk below will create a new dataframe called `world_without_antarctica` from our existing dataframe called `world`. Notice that in your environment pane, you now have a new object with one less observation than the original, but with the same number of variables.
 
 **Challenge 2: Instead of removing antarctica, remove Australia from the map**. Remember to change the name of the dataframe to something like `world_without_Australia`. 
+```{r}
+world_without_Australia<- world %>%
+  filter(iso_a3 != "AUT")
+ggplot() + 
+  geom_sf(data = world_without_Australia)
+ggplot() + 
+  geom_sf(data = world_without_Australia) +
+    ggtitle("Countries of the World", subtitle = "without Australia")
+```
 
 Nothing against Australia! We're just learning how to navigate dataframes and make choices about our maps.
 ```{r}
@@ -223,6 +232,15 @@ Now let's work on making our map pretty with some colors. Inside our `geom_sf()`
 The colors we are using here are what are known as "hex colors", because they are designated with 6 numbers (hexadecimal) after a `#` sign. This is how html (websites) code colors. Use [this site](https://www.color-hex.com/color-names.html) to find more colors and their hex codes. 
 
 **Challenge 3: Try out different colors on your map until you find a combination that you like.**
+
+```{r}
+ggplot() + 
+  geom_sf(data = world_without_Australia, 
+          fill = "#669438", color = "#32481B", size = 0.25) +
+  ggtitle("Countries of the World", subtitle = "without Australia")+
+  theme_void()
+```
+
 ```{r}
 ggplot() + 
   geom_sf(data = world_without_antarctica, 
@@ -244,6 +262,15 @@ We can also use our variables (columns in our dataframe) to add color to each co
 Notice that the `mapcolor7` column only provides numbers, so we need to add a color scale, or palette, to associate with the numbers. This is similar to what we will do when we start making choropleth maps using variables with data about countries. Since our data is categorical (also known as discrete or qualitative) in this case, we want to use a color palette that is designed for use with discrete data. 
 
 **Challenge 4: Try a few different discrete [color palettes](https://jmsallan.netlify.app/blog/the-brewer-palettes/) and choose one that you like.**
+```{r}
+ggplot() + 
+  geom_sf(data = world_without_Australia, 
+          aes(fill = as.factor(mapcolor7)),
+          color = "#401D16", size = 0.25) +
+  scale_fill_brewer(palette = "Set1") +
+  guides(fill = "none") +
+  theme_void()
+```
 
 We are using Brewer color palettes (created by Cynthia A. Brewer) in this class, which are designed specifically for map-making.
 
@@ -289,6 +316,15 @@ What do you notice about the new map we made compared to the WGS 84 map?
 The Orthographic Azimuthal projection is a good option if you want to choose the center of your map, though you won't be able to see the other half of the world. For this, you will need to use a more complex bit of code for the `crs` argument, called a [PROJ4](https://proj.org/en/9.4/usage/projections.html) string. You will provide the `proj` alias, in this case `ortho`, and then the latitude (`lat_0`) and longitude (`lon_0`) of the "origin", or center, of your map. In the example below, I have centered the map on my hometown of Lubbock, Texas. 
 
 **Challenge 5: Look up the latitude and longitude of your hometown (or your current home), and change the PROJ4 string `lat_0` and `lon_0`. Then change the title to reflect the place you are centering.**
+
+```{r}
+ggplot(data = world) +
+  geom_sf(fill = "#669438", color = "#32481B", size = 0.25) +
+    coord_sf(crs = "+proj=ortho +lat_0=25 +lon_0=25 ") +
+  ggtitle("Lubbock, TX as the Center of the World_(Egypt)", subtitle = "Orthographic Azimuthal")+
+  theme_void()
+```
+
 ```{r}
 ggplot(data = world) +
   geom_sf(fill = "#669438", color = "#32481B", size = 0.25) +
