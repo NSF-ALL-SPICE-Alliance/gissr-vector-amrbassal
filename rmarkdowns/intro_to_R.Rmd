@@ -106,7 +106,16 @@ my_age + 5 # how old will you be in 5 years?
 ```
 
 #### <span style="color: red;">Challenge 1</span>
-Create a my_name variable with your name assigned to the variable instead of "Victoria DelaCruz". Then, create a my_age variable with your age. 
+Create a my_name variable with your name assigned to the variable instead of "Victoria DelaCruz". Then, create a my_age variable with your age.
+
+```{r}
+my_name<-"Amr Abdou"
+my_age = 26
+my_age + 20
+
+
+```
+
 
 #### Different Types of Data
 
@@ -202,7 +211,7 @@ In the code chunk below, we use the `read_csv()` function to read in the csv fil
   
     - This also **ensures reproducibility** because as long as we share R projects on github, our project directories will always be the same
 ```{r, message=FALSE}
-sdr_data <- read_csv(here("data/SDR-2023-Data.csv")) # assigning the dataset to a variable so that we can look at/reference it
+sdr_data <- read.csv(here("data/SDR-2023-Data.csv")) # assigning the dataset to a variable so that we can look at/reference it
 # to view the whole dataset you can click on sdr_data in your environment pane at the top right of your screen)
 ```
 Cleaning names
